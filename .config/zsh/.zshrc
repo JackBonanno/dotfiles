@@ -17,7 +17,7 @@ setopt PROMPT_SUBST
 #git prompt
 #export PROMPT='%B%F{blue}%m%f%F{yellow}${vcs_info_msg_0_}%f %F{red}%~>%f%b'
 #combo?
-export PROMPT='%B%F{yellow}-> %n%f%F{blue}@%m%f%F{red}${vcs_info_msg_0_}%f X %b'
+export PROMPT='%B%F{yellow}[%h]%f %F{red}!%f %F{yellow}%n%f%F{blue}@%m%f%F{red}${vcs_info_msg_0_} > %f%b'
 
 autoload -Uz compinit
 compinit
