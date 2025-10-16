@@ -11,9 +11,13 @@ fi
 autoload -Uz vcs_info
 precmd() { vcs_info }
 
-#export PROMPT='%B%F{yellow}[%h]%f %F{red}!%f %F{yellow}%n%f%F{blue}@%m%f %F{red}%~>%f%b'
 setopt PROMPT_SUBST
-export PROMPT='%B%F{blue}%m%f%F{yellow}${vcs_info_msg_0_}%f %F{red}%~>%f%b'
+#og prompt
+#export PROMPT='%B%F{yellow}[%h]%f %F{red}!%f %F{yellow}%n%f%F{blue}@%m%f %F{red}%~>%f%b'
+#git prompt
+#export PROMPT='%B%F{blue}%m%f%F{yellow}${vcs_info_msg_0_}%f %F{red}%~>%f%b'
+#combo?
+export PROMPT='%B%F{yellow}-> %n%f%F{blue}@%m%f%F{red}${vcs_info_msg_0_}%f X %b'
 
 autoload -Uz compinit
 compinit
