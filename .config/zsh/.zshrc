@@ -33,3 +33,4 @@ export JAVA_HOME=/usr/lib/jvm/default
 autoload -U select-word-style
 select-word-style bash
 
+alias config='/usr/bin/git --git-dir=/home/jack/.cfg/ --work-tree=/home/jack'
