@@ -1,4 +1,6 @@
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
+#export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+#export PATH="$HOME/bin:$PATH"
 # Enable zsh-autosuggestions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Enable zsh-syntax-highlighting
@@ -21,6 +23,8 @@ export PROMPT='%B%F{yellow}[%h]%f %F{red}!%f %F{yellow}%n%f%F{blue}@%m%f%F{red}$
 
 autoload -Uz compinit
 compinit
+autoload -U select-word-style
+select-word-style bash
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -33,6 +37,8 @@ bindkey "^Y" autosuggest-accept
 
 alias vim="nvim"
 alias audiotui="ncpamixer"
+alias elvis="~/.local/script/elvis_login.sh"
+alias arm64ssh="ssh -i ~/bin/bonann56.key bonann56@52.206.15.75"
 
 export JAVA_HOME=/usr/lib/jvm/default
 
@@ -43,3 +49,7 @@ select-word-style bash
 eval $(keychain --quiet --eval "$GITHUB_KEY_NAME")
 
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
+
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
