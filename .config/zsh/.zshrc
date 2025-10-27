@@ -1,10 +1,20 @@
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
 #export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 #export PATH="$HOME/bin:$PATH"
-# Enable zsh-autosuggestions
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-# Enable zsh-syntax-highlighting
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Source local zsh config settings
+if [ -f "$HOME/.zshrc.local" ]; then
+    source "$HOME/.zshrc.local"
+fi
+# Enable zsh-autosuggestions if available
+if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# Enable zsh-syntax-highlighting if available
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
 # Source local zsh config settings
 if [ -f "$HOME/.zshrc.local" ]; then
     source "$HOME/.zshrc.local"
@@ -48,10 +58,9 @@ autoload -U select-word-style
 select-word-style bash
 
 #use keychain to load my github key
-eval $(keychain --quiet --eval "$GITHUB_KEY_NAME")
+if command -v keychain >/dev/null 2>&1 && [[ -f ~/.keychain/${HOST}-sh ]]; then
+    eval "$(keychain --quiet --eval "$GITHUB_KEY_NAME")"
+fi
+
 
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
-
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
