@@ -5,6 +5,13 @@
 	min-height: 14px;
 	font-weight: bold;
 }
+window#waybar {
+    background-color: @base; /* This turns the bar Mocha Grey */
+    color: @text;
+    border-bottom: 2px solid @surface0; /* Optional: adds a subtle bottom border */
+    transition-property: background-color;
+    transition-duration: .5s;
+}
 
 #window {
     margin: 8px;
