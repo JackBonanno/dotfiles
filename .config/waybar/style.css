@@ -60,10 +60,6 @@ button {
 	border-bottom: 2px solid @purple;
 }
 
-#pulseaudio {
-    color: @blue;
-    border-bottom: 2px solid @blue;
-}
 #custom-power {
   margin-top: 2px;
   margin-bottom: 2px;
@@ -101,6 +97,11 @@ button {
   padding-left: 8px;
   padding-right: 8px;
   min-width: 50px;
+}
+#pulseaudio {
+    color: @blue;
+    border-bottom: 2px solid @blue;
+    min-width: 85px;
 }
 .modules-left>widget:first-child>#workspaces {
     margin-left: 0;
