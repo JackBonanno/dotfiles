@@ -76,7 +76,7 @@ button {
     border-bottom: 2px solid @white;
 }
 
-#network {
+#network, #custom-wireguard {
     color: @yellow;
     border-bottom: 2px solid @yellow;
 }
@@ -91,6 +91,7 @@ button {
 #wireplumber,
 #tray,
 #network,
+#custom-wireguard,
 #mode,
 #scratchpad{
   margin-top: 2px;
@@ -99,7 +100,7 @@ button {
   margin-right: 8px;
   padding-left: 8px;
   padding-right: 8px;
-  min-width: 100px;
+  min-width: 50px;
 }
 .modules-left>widget:first-child>#workspaces {
     margin-left: 0;

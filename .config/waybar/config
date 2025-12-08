@@ -4,7 +4,7 @@
 "height": 40,
 "modules-left": ["hyprland/workspaces"],
 "modules-center": ["clock"],
-"modules-right": ["cpu", "memory", "network", "pulseaudio", "battery", "custom/power"],
+"modules-right": ["cpu", "memory", "network", "custom/wireguard", "pulseaudio", "battery", "custom/power"],
 
 
 
@@ -70,7 +70,21 @@
       "format": "⏻",
       "on-click": "wlogout",
       "tooltip": "false"
+  },
+  "custom/wireguard":{
+      "format": "{}",
+      "exec": "~/.config/waybar/scripts/wg-status.sh",
+      "interval": 5,
+      "on-click": "nmcli connection down wg0 || nmcli connection up wg0"
   }
+//  "network#vpn": {
+//    "interface": "wg0",
+//    "format": " VPN",
+//    "format-disconnected": " Off",
+//    "tooltip-format": "{ifname} connected",
+//    "on-click": "nmcli connection up wg0",
+//    "on-click-right": "nmcli connection down wg0"
+//}
 
 }
 
