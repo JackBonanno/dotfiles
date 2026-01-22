@@ -2,7 +2,7 @@
 
 CONN="wg0"
 
-if ! nmcli connection show "$CONN" > /dev/null 2>%1; then
+if ! nmcli connection show "$CONN" > /dev/null 2>&1; then
     exit 0
 fi
 
