@@ -59,6 +59,10 @@ export JAVA_HOME=/usr/lib/jvm/default
 autoload -U select-word-style
 select-word-style bash
 
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+  eval "$(ssh-agent -s)"
+fi
+
 #use keychain to load my github key
 if command -v keychain >/dev/null 2>&1 && [[ -f ~/.keychain/${HOST}-sh ]]; then
     eval "$(keychain --quiet --eval "$GITHUB_KEY_NAME")"
