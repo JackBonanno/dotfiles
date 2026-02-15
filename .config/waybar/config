@@ -49,6 +49,7 @@
 "network": {
 	"format": "  {signalStrength}%",
 	"format-disconnected": "󰖪",
+    "on-click": "kitty -e nmtui",
 	"format-ethernet": "󰈁 Eth",
 },
 
@@ -92,7 +93,7 @@
       "format": "{}",
       "exec": "~/.config/waybar/scripts/wg-status.sh",
       "interval": 5,
-      "on-click": "nmcli connection down wg0 || nmcli connection up wg0"
+      "on-click": "~/.config/waybar/scripts/wg-toggle.sh"
   }
 //  "network#vpn": {
 //    "interface": "wg0",
