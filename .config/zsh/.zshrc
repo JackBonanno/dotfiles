@@ -48,6 +48,7 @@ setopt share_history
 bindkey "^[[1;5C" forward-word      # Ctrl + →
 bindkey "^[[1;5D" backward-word     # Ctrl + ←
 bindkey "^Y" autosuggest-accept
+bindkey -s ^f "~/bin/scripts/tmux-sessionizer\n"
 
 alias vim="nvim"
 alias audiotui="ncpamixer"
