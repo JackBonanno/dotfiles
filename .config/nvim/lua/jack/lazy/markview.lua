@@ -1,25 +1,31 @@
----- for `plugins/markview.lua` users.
---return {
---    "oxy2dev/markview.nvim",
---    lazy = false,
---
---    config = function()
---
---
---    end,
---
---    -- completion for `blink.cmp`
---    -- dependencies = { "saghen/blink.cmp" },
---};
---
---
 return {
   "oxy2dev/markview.nvim",
   lazy = false,
 
+    dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-tree/nvim-web-devicons"
+    },
+
   config = function()
     -- this sets up markview
-    require("markview").setup({})
+    require("markview").setup({
+        latex = {
+            enable = true,
+            inline = {
+                enable = true,
+            },
+            block = {
+                enable = true,
+                hl = "MarkviewCode", -- Reuses your existing code highlight
+                text = " Equation ", -- Adds a nice label to equation blocks
+            },
+        },
+        -- Ensure markdown extensions are enabled
+        markdown = {
+            enable = true,
+        }
+        })
 
     -- ### the real fix (v3) ###
     -- this function sets the correct markview-specific highlight groups
