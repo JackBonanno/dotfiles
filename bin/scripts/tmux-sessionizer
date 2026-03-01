@@ -2,10 +2,16 @@
 
 #ThePrimagen tmux sessionizer
 
+hosts_file="$HOME/.tmux-hosts"
+
+if [[ -f $hosts_file ]]; then
+    hosts=$(cat "$hosts_file")
+fi
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/Projects ~/.config ~/ ~/Documents/School -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(( echo "$hosts"; find ~/Projects ~/.config ~/ ~/Documents/School -mindepth 1 -maxdepth 1 -type d ) | fzf)
 fi
 
 if [[ -z $selected ]]; then
@@ -16,12 +22,23 @@ selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected
-    exit 0
+    if [[ -d $selected ]]; then
+        tmux new-session -s $selected_name -c $selected
+        exit 0
+    else
+        tmux new-session -s $selected_name "ssh -t $selected 'tmux new-session -A -s main'"
+        exit 0
+    fi
 fi
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name -c $selected
+    if [[ -d $selected ]]; then
+        tmux new-session -ds $selected_name -c $selected
+        exit 0
+    else
+        tmux new-session -ds $selected_name "ssh -t $selected 'tmux new-session -A -s main'"
+        exit 0
+    fi
 fi
 
 if [[ -n $TMUX ]]; then
