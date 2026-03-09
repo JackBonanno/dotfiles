@@ -1,6 +1,8 @@
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
 export EDITOR="nvim"
 
+stty -ixon #Disable ctrl s pause and ctrl q resume
+
 #export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 #export PATH="$HOME/bin:$PATH"
 # Source local zsh config settings
@@ -54,6 +56,9 @@ alias vim="nvim"
 alias audiotui="ncpamixer"
 alias elvis="~/.local/script/elvis_login.sh"
 alias arm64ssh="ssh -i ~/bin/bonann56.key bonann56@52.206.15.75"
+
+alias ls='ls -hN --color=auto --group-directories-first'
+alias grep='grep --color=auto'
 
 export JAVA_HOME=/usr/lib/jvm/default
 
