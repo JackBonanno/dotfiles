@@ -17,7 +17,7 @@ return {
     config = function()
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
-        
+
         -- Use cmp-lsp default capabilities to enable completion
         local capabilities = vim.tbl_deep_extend(
             "force",
@@ -40,7 +40,7 @@ return {
                 "jsonls",
             },
             automatic_installation = true,
-            
+
             -- This is the correct way to prevent lspconfig from starting jdtls
             -- so that nvim-jdtls can handle it correctly via ftplugin/java.lua
             handlers = {
@@ -63,15 +63,14 @@ return {
                         }
                     }
                 end,
-                
+
                 -- Handler to explicitly SKIP jdtls setup by lspconfig
                 ["jdtls"] = function()
                     return
                 end,
             }
         })
-        
-        -- CMP SETUP (No changes needed here, it's correct for LSP completion)
+
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
@@ -87,15 +86,15 @@ return {
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
-                { name = 'nvim_lsp' }, -- This is what enables LSP completion
+                { name = 'nvim_lsp' },
                 { name = 'luasnip' },
             }, {
                 { name = 'buffer' },
             })
         })
 
-        -- DIAGNOSTIC SETUP (Correct)
         vim.diagnostic.config({
+            virtual_text = true,
             float = {
                 focusable = false,
                 style = "minimal",
@@ -105,6 +104,7 @@ return {
                 prefix = "",
             },
         })
+
         vim.api.nvim_create_autocmd('FileType', {
             pattern='java',
             callback = function(args)
