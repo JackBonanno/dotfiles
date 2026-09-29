@@ -1,49 +1,42 @@
 #!/usr/bin/env bash
 
-#ThePrimagen tmux sessionizer
+#Jack's awesome tmux-sessionizer
 
-hosts_file="$HOME/.tmux-hosts"
+ssh_config="$HOME/.ssh/config"
+hosts=""
+is_host=false
 
-if [[ -f $hosts_file ]]; then
-    hosts=$(cat "$hosts_file")
+if [[ -f $ssh_config ]]; then
+    hosts=$(cat $ssh_config | grep "Host " | awk '{print $2}')
 fi
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(( echo "$hosts"; find ~/Projects ~/.config ~/ ~/Documents/School -mindepth 1 -maxdepth 1 -type d ) | fzf)
+    selected=$( ( echo "$hosts"; find ~/Projects ~/.config ~/Documents/School -mindepth 1 -maxdepth 1 -type d ) | fzf)
 fi
 
 if [[ -z $selected ]]; then
     exit 0
 fi
 
+if grep -Fxq "$selected" <<< "$hosts"; then
+    is_host=true
+fi
+
 selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
 
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    if [[ -d $selected ]]; then
-        tmux new-session -s $selected_name -c $selected
-        exit 0
+if ! tmux has-session -t "$selected_name" 2>/dev/null; then
+    if $is_host; then
+        tmux new-session -ds "$selected_name"\
+            "ssh -t '$selected' 'tmux new-session -A -s main'"
     else
-        tmux new-session -s $selected_name "ssh -t $selected 'tmux new-session -A -s main'"
-        exit 0
+        tmux new-session -ds "$selected_name" -c "$selected"
     fi
 fi
 
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    if [[ -d $selected ]]; then
-        tmux new-session -ds $selected_name -c $selected
-        exit 0
-    else
-        tmux new-session -ds $selected_name "ssh -t $selected 'tmux new-session -A -s main'"
-        exit 0
-    fi
-fi
-
-if [[ -n $TMUX ]]; then
-    tmux switch-client -t $selected_name
+if [[ -n "$TMUX" ]]; then
+    tmux switch-client -t "$selected_name"
 else
-    tmux attach -t $selected_name
+    tmux attach-session -t "$selected_name"
 fi
-

@@ -1,4 +1,5 @@
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
+case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$HOME/.local/bin:$PATH" ;; esac
 export EDITOR="nvim"
 
 stty -ixon #Disable ctrl s pause and ctrl q resume
@@ -43,9 +44,9 @@ select-word-style bash
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt append_history       
-setopt hist_ignore_dups     
-setopt share_history        
+setopt append_history
+setopt hist_ignore_dups
+setopt share_history
 
 bindkey "^[[1;5C" forward-word      # Ctrl + →
 bindkey "^[[1;5D" backward-word     # Ctrl + ←
