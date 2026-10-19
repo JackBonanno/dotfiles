@@ -55,6 +55,7 @@ bindkey -s ^f "~/bin/scripts/tmux-sessionizer\n"
 
 alias vim="nvim"
 alias audiotui="ncpamixer"
+export QT_LOGGING_RULES=qt.qpa.wayland.*.warning=false
 
 alias ls='ls -N --color=auto --group-directories-first'
 alias grep='grep --color=auto'
