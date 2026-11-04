@@ -28,6 +28,8 @@ fi
 autoload -Uz vcs_info
 precmd() { vcs_info }
 
+eval "$(fzf --zsh)"
+
 setopt PROMPT_SUBST
 #og prompt
 #export PROMPT='%B%F{yellow}[%h]%f %F{red}!%f %F{yellow}%n%f%F{blue}@%m%f %F{red}%~>%f%b'
@@ -59,6 +61,7 @@ export QT_LOGGING_RULES=qt.qpa.wayland.*.warning=false
 
 alias ls='ls -N --color=auto --group-directories-first'
 alias grep='grep --color=auto'
+alias history='history 1'
 
 export JAVA_HOME=/usr/lib/jvm/default
 
