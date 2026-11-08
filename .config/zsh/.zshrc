@@ -30,13 +30,39 @@ precmd() { vcs_info }
 
 eval "$(fzf --zsh)"
 
+# 1. Enable prompt substitution & load vcs_info
 setopt PROMPT_SUBST
-#og prompt
-#export PROMPT='%B%F{yellow}[%h]%f %F{red}!%f %F{yellow}%n%f%F{blue}@%m%f %F{red}%~>%f%b'
-#git prompt
-#export PROMPT='%B%F{blue}%m%f%F{yellow}${vcs_info_msg_0_}%f %F{red}%~>%f%b'
-#combo?
-export PROMPT='%B%F{yellow}[%h]%f %F{red}!%f %F{yellow}%n%f%F{blue}@%m%f%F{red}${vcs_info_msg_0_} ~> %f%b'
+autoload -Uz vcs_info
+
+# 2. Configure Git status (Clean = green, Dirty = yellow ! or +)
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr '!'
+zstyle ':vcs_info:*' stagedstr '+'
+zstyle ':vcs_info:git:*' formats ' %F{green}(%b%F{yellow}%u%c%F{green})%f'
+zstyle ':vcs_info:git:*' actionformats ' %F{green}(%b|%a%F{yellow}%u%c%F{green})%f'
+
+# 3. Precmd hook: update git info & print blank line between commands
+precmd() {
+    vcs_info
+}
+
+# 4. Contextual Identity: keep your yellow/blue %n@%m, but ONLY over SSH or as root
+prompt_context() {
+    if [[ -n "$SSH_CONNECTION" || "$EUID" -eq 0 ]]; then
+        echo "%F{yellow}%n%f%F{blue}@%m%f "
+    fi
+}
+
+# 5. Python Venv indicator (optional, hides when inactive)
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+prompt_venv() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        echo "%F{cyan}[${VIRTUAL_ENV:t}]%f "
+    fi
+}
+
+PROMPT='%B$(prompt_context)$(prompt_venv)%F{blue}%1~%f${vcs_info_msg_0_}%(?.%F{33}.%F{red}) ❯%f%b '
 
 autoload -Uz compinit
 compinit
