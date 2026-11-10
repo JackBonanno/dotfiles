@@ -81,8 +81,8 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -----------------------
 hl.config({
     general = {
-        gaps_in     = 5,
-        gaps_out    = 10,
+        gaps_in     = 0,
+        gaps_out    = 0,
         border_size = 3,
         col = {
             active_border = "rgba(89b4faff)",
@@ -167,6 +167,7 @@ hl.bind(mainMod .. " + S",              hl.dsp.exec_cmd("spotify"))
 hl.bind(mainMod .. " + D",              hl.dsp.exec_cmd("discord"))
 hl.bind(mainMod .. " + SHIFT + G",      hl.dsp.exec_cmd("gimp"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" }))
 hl.bind(mainMod .. " + SHIFT + CTRL + S", hl.dsp.exec_cmd("hyprshot -m region"))
 hl.bind(mainMod .. " + SHIFT + S",      hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
 hl.bind(mainMod .. " + SHIFT + U",      hl.dsp.exec_cmd("systemctl poweroff"), { locked = true })
@@ -307,23 +308,35 @@ end)
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
 --------------------------------
--- Uncomment if you want to enable these rules:
+ hl.window_rule({
+     name           = "suppress-maximize-events",
+     match          = { class = ".*" },
+     suppress_event = "maximize",
+ })
 
--- hl.window_rule({
---     name           = "suppress-maximize-events",
---     match          = { class = ".*" },
---     suppress_event = "maximize",
--- })
+ hl.window_rule({
+     name     = "fix-xwayland-drags",
+     match    = {
+         class      = "^$",
+         title      = "^$",
+         xwayland   = true,
+         float      = true,
+         fullscreen = false,
+         pin        = false,
+     },
+     no_focus = true,
+ })
 
--- hl.window_rule({
---     name     = "fix-xwayland-drags",
---     match    = {
---         class      = "^$",
---         title      = "^$",
---         xwayland   = true,
---         float      = true,
---         fullscreen = false,
---         pin        = false,
---     },
---     no_focus = true,
--- })
+ hl.window_rule({
+    name = "xwayland-video-bridge-fixes",
+    match = {
+        class = "xwaylandvideobridge"
+    },
+
+    no_initial_focus = true,
+    no_focus = true,
+    no_anim = true,
+    no_blur = true,
+    max_size = {1,1},
+    opacity = 0.0
+})
