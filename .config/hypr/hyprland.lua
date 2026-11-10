@@ -177,23 +177,35 @@ hl.bind(mainMod .. " + V",              hl.dsp.window.float({ action = "toggle" 
 
 hl.bind(mainMod .. " + bracketleft", function()
     is_mirrored = not is_mirrored
-    if is_mirrored then
-        hl.monitor({
-            output   = "HDMI-A-1",
-            mode     = "preferred",
-            position = "auto",
-            scale    = 1,
-            mirror   = "eDP-1",
-        })
-    else
-        hl.monitor({
-            output   = "HDMI-A-1",
-            mode     = "preferred",
-            position = "auto",
-            scale    = 1,
-            mirror   = "",
-        })
+
+    local monitors = hl.get_monitors({ all=true })
+    local focused_mon = nil
+
+    -- Find the focused monitor
+    for _, mon in ipairs(monitors) do
+        if mon.focused then
+            focused_mon = mon.name
+            break
+        end
     end
+    -- Fallback to the first monitor if focus fails
+    if not focused_mon and #monitors > 0 then
+        focused_mon = monitors[1].name
+    end
+
+    if not focused_mon then return end
+
+    -- Apply mirroring to every other connected monitor
+    for _, mon in ipairs(monitors) do
+        if mon.name ~= focused_mon then
+            hl.monitor({
+                output   = mon.name,
+                scale    = mon.scale or 1,
+                mirror   = (is_mirrored and mon.name ~=focused_mon) and focused_mon or "",
+            })
+        end
+    end
+
 end, {locked=true})
 
 hl.bind(mainMod .. " + bracketright", function()
